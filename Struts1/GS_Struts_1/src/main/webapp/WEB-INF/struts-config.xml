@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+
+    <form-beans>
+        <form-bean name="lookupForm" type="ru.javacourse.struts.form.UserForm"  >
+        <form-property name="id" type="java.lang.Integer" reset="true" />
+        <form-property name="name" type="java.lang.String" reset="true"/>
+        <form-property name="email" type="java.lang.String" reset="true"/>
+        <form-property name="age" type="java.lang.Integer" reset="true"/>
+    </form-bean>
+    </form-beans>
+
+    <action-mappings>
+
+
+        <action path="/welcome" type="ru.javacourse.struts.action.WelcomeAction">
+            <forward name="success" path="/index.jsp"/>
+        </action>
+
+        <action path="/user" type="ru.javacourse.struts.action.LookupUserAction"
+                name="lookupForm"
+                input="/index.jsp"  scope="request">
+
+            <forward name="success" path="/user.jsp"/>
+            <forward name="failure" path="/error.jsp"/>
+        </action>
+
+        <action path="/add" type="ru.javacourse.struts.action.AddNewUserAction"
+                name="lookupForm" input="/index.jsp"
+                scope="request" validate="true">
+
+            <forward name="failure" path="/index.jsp"/>
+            <forward name="success" redirect="yes" path="/welcome.do"/>
+
+        </action>
+
+
+
+    </action-mappings>
+
+    <message-resources parameter="messages"/>
+
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+        <set-property property="pathnames" value="/org/apache/struts/validator/validator-rules.xml, /WEB-INF/validation.xml, /WEB-INF/custom-validator-rules.xml"/>
+    </plug-in>
+
+    <!--<global-forwards>-->
+        <!--<forward name="failure" path="/index.jsp"/>-->
+    <!--</global-forwards>-->
+
+</struts-config>
